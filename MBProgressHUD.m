@@ -152,6 +152,13 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         NSTimer *timer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
         self.graceTimer = timer;
+        
+        // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
+        // in the done method
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:self.graceTime - 0.01f];
+        self.alpha = 0.02f;
+        [UIView commitAnimations];
     } 
     // ... otherwise show the HUD immediately
     else {
