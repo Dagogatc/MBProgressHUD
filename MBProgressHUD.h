@@ -102,6 +102,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated;
 
++ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated graceTime:(NSTimeInterval)graceTime;
+
 /// @name Showing and hiding
 
 /**

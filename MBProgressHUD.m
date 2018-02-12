@@ -56,7 +56,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Class methods
 
 + (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
+    return [self showHUDAddedTo:view animated:animated graceTime:0];
+}
+
++ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated graceTime:(NSTimeInterval)graceTime {
     MBProgressHUD *hud = [[self alloc] initWithView:view];
+    hud.graceTime = graceTime;
     hud.removeFromSuperViewOnHide = YES;
     [view addSubview:hud];
     [hud showAnimated:animated];
