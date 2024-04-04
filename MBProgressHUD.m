@@ -44,7 +44,12 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 #pragma mark - Class methods
 
 + (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
+    return [self showHUDAddedTo:view animated:animated graceTime:0];
+}
+
++ (instancetype)showHUDAddedTo:(UIView *)view animated:(BOOL)animated graceTime:(NSTimeInterval)graceTime {
     MBProgressHUD *hud = [[self alloc] initWithView:view];
+    hud.graceTime = graceTime;
     hud.removeFromSuperViewOnHide = YES;
     [view addSubview:hud];
     [hud showAnimated:animated];
@@ -137,7 +142,14 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
         NSTimer *timer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
         self.graceTimer = timer;
-    }
+        
+        // 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
+        // in the done method
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:self.graceTime - 0.01f];
+        self.alpha = 0.02f;
+        [UIView commitAnimations];
+    } 
     // ... otherwise show the HUD immediately
     else {
         [self showUsingAnimation:self.useAnimation];
